@@ -1,0 +1,63 @@
+function [Linearity, Planerity, BoundaryPoints, alfa, uu, pts1, B_loc, IndxEdgePoint,alphaV]=edge_plane_detection_new(colon_num)
+
+if colon_num==3
+   [pts1]=ouvrir_fichier(3);
+   
+else
+    
+ [pts1]=ouvrir_rapid (4) ;
+  pts1=pts1(:,1:3);
+end
+
+[Linearity, Planerity, BoundaryPoints, normal_pnts,alfa,alfa1,point_num, B_loc, IndxEdgePoint,mD] =...
+    features_For_Classification_new(pts1);
+%%alph Value Calculation
+alphaV = mean(mD);
+
+   %figure;
+   %histogram(alfa,'BinWidth',3);
+   %[N,edges] = histcounts(alfa,'BinWidth',3);
+   
+  
+j=find(N>=max(N)*0.7);
+% figure;
+% hold on;
+for u=1:length(j)
+uu=find(alfa>=edges(j(u))-3);% &alfa<edges(j(u))+3);
+%  plot3( pts1(uu,1), pts1(uu,2), pts1(uu,3),'b.');
+end
+ uu=find(alfa<edges(j(u))-3);  %%%%% for VA -12, for other case it is -3
+
+ 
+%  plot3( pts1(uu,1), pts1(uu,2), pts1(uu,3),'c+');
+% hold off;
+%figure; hold on;
+plot3( pts1(:,1), pts1(:,2), pts1(:,3),'y.');
+%  plot3(BoundaryPoints(:,1), BoundaryPoints(:,2), BoundaryPoints(:,3), '.r', 'markersize', 11);
+plot3( pts1(uu,1), pts1(uu,2), pts1(uu,3),'.g', 'markersize', 7);
+plot3(BoundaryPoints(:,1), BoundaryPoints(:,2), BoundaryPoints(:,3), '.r');
+hold off;
+
+
+  figure;
+   histogram(alfa1,'BinWidth',3);
+   [N1,edges1] = histcounts(alfa1,'BinWidth',3);
+   
+   jj=find(N1>=max(N1)*0.7);
+for u=1:length(jj)
+uu1=find(alfa1>=edges1(jj(u))-3);% &alfa<edges(j(u))+3);
+%  plot3( pts1(uu,1), pts1(uu,2), pts1(uu,3),'b.');
+end
+ uu1=find(alfa1<edges1(jj(u))-12);
+
+ 
+%  plot3( pts1(uu,1), pts1(uu,2), pts1(uu,3),'c+');
+% hold off;
+figure; hold on;
+plot3( pts1(:,1), pts1(:,2), pts1(:,3),'.b');
+plot3( pts1(uu1,1), pts1(uu1,2), pts1(uu1,3),'.y', 'markersize', 7);
+plot3(BoundaryPoints(:,1), BoundaryPoints(:,2), BoundaryPoints(:,3), '.r', 'markersize', 11);
+
+hold off;
+
+end
